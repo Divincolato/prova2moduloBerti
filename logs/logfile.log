@@ -1,22 +1,2 @@
-INFO  | 2021-02-22 14:57:48 | [main] ca_provaberti2.Program (Program.java:44) - LOG_PRINCIPALE Info
-WARN  | 2021-02-22 14:57:48 | [main] ca_provaberti2.Program (Program.java:45) - LOG_PRINCIPALE Warn
-ERROR | 2021-02-22 14:57:48 | [main] ca_provaberti2.Program (Program.java:46) - LOG_PRINCIPALE Error
-FATAL | 2021-02-22 14:57:48 | [main] ca_provaberti2.Program (Program.java:47) - LOG_PRINCIPALE Fatal
-INFO  | 2021-02-22 14:57:48 | [main] ca_provaberti2.Program (Program.java:48) - LOG_PRINCIPALE aggiungo una stringa a livello info
-INFO  | 2021-02-22 15:04:05 | [main] ca_provaberti2.Program (Program.java:44) - LOG_PRINCIPALE Info
-WARN  | 2021-02-22 15:04:05 | [main] ca_provaberti2.Program (Program.java:45) - LOG_PRINCIPALE Warn
-ERROR | 2021-02-22 15:04:05 | [main] ca_provaberti2.Program (Program.java:46) - LOG_PRINCIPALE Error
-FATAL | 2021-02-22 15:04:05 | [main] ca_provaberti2.Program (Program.java:47) - LOG_PRINCIPALE Fatal
-INFO  | 2021-02-22 15:04:05 | [main] ca_provaberti2.Program (Program.java:48) - LOG_PRINCIPALE aggiungo una stringa a livello info
-INFO  | 2021-02-22 15:04:05 | [main] ca_provaberti2.Program (Program.java:52) - Database updated
-INFO  | 2021-02-22 15:04:05 | [main] ca_provaberti2.Program (Program.java:52) - Database updated
-INFO  | 2021-02-22 15:05:51 | [main] ca_provaberti2.Program (Program.java:47) - Database updated
-INFO  | 2021-02-22 15:05:51 | [main] ca_provaberti2.Program (Program.java:47) - Database updated
-INFO  | 2021-02-22 15:06:17 | [main] ca_provaberti2.Program (Program.java:47) - 
-Database updated
-
-INFO  | 2021-02-22 15:06:17 | [main] ca_provaberti2.Program (Program.java:47) - 
-Database updated
-
 INFO  | 2021-02-22 16:20:26 | [main] ca_provaberti2.Program (Program.java:47) - Database updated
 INFO  | 2021-02-22 16:20:26 | [main] ca_provaberti2.Program (Program.java:47) - Database updated
