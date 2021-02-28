@@ -49,7 +49,7 @@ public class MetodiTest {
         String squadra = "TestNapoli";
         Metodi.addAllenatore(nome, squadra);
         //essendo il secondo test controllo se c'è più di un dato, il primo è il giocatore del primo test
-        if (Metodi.personeList.size()<=1){
+        if (Metodi.personeList.size()<1){
             fail("Non è stato aggiunto nessun Allenatore");
         }
     }
