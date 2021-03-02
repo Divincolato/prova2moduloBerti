@@ -24,6 +24,10 @@ public class FormSquadre extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    
+    Persona[]ArraySquadraSelez;
+    String s;
+    
     public FormSquadre() {
         initComponents();
         
@@ -101,18 +105,32 @@ public class FormSquadre extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-    }//GEN-LAST:event_jTable1MouseClicked
-
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
             // TODO add your handling code here:
           int index = jList1.getSelectedIndex();
-          String s = (String) jList1.getSelectedValue();
+          s = (String) jList1.getSelectedValue();
           System.out.println("Value Selected: " + s.toString());
           caricaTabella(s);
               
         
     }//GEN-LAST:event_jList1MouseClicked
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int riga = jTable1.rowAtPoint(evt.getPoint());
+        int colonna = jTable1.columnAtPoint(evt.getPoint());
+        String valoreDelCampo = jTable1.getModel().getValueAt(riga, colonna)+"";
+        System.out.print("valore della cella: "+valoreDelCampo);
+        System.out.println(" | indice della riga cliccata: "+riga);
+        
+        //apro la form di dettaglio sulla persona cliccata
+        try {
+            
+        FormEdit f = new FormEdit(ArraySquadraSelez[riga], this, riga, s);
+        f.setVisible(true);
+        this.setEnabled(false);
+        } catch (Exception e) {System.out.println("Selezionare una squadra");
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -132,7 +150,7 @@ public class FormSquadre extends javax.swing.JFrame {
         for (int i = modello.getRowCount() - 1; i >= 0; i--) {
             modello.removeRow(i);
         }
-        Persona[]ArraySquadraSelez = dbPersone.get(s).toArray(new Persona[0]);
+        ArraySquadraSelez = dbPersone.get(s).toArray(new Persona[0]);
         //carico i dati
         int nCampiDavisualizzare = 3;
         String[] dati = new String[nCampiDavisualizzare];
@@ -148,6 +166,7 @@ public class FormSquadre extends javax.swing.JFrame {
             }else{dati[2] = ArraySquadraSelez[i].punteggio+"";}
             modello.addRow(dati);
         }
+        
     }
  
     public static void main(String args[]) {
