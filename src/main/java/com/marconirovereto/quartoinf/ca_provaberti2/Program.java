@@ -5,9 +5,11 @@
  */
 package com.marconirovereto.quartoinf.ca_provaberti2;
 
+import static com.marconirovereto.quartoinf.ca_provaberti2.Program.squadre;
 import com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.*;
 
 import static com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Metodi.*;
+import com.marconirovereto.quartoinf.ca_provaberti2.gui.FormSquadre;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,9 +38,11 @@ public class Program {
     
     public static String SPAZIATORE = "|||||||||||||||||||||||||||||||||||||||";
     
+    public static String squadre[];
     
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+
         
         //espressione lambda per aggiornare l'hashmap senza creare un nuovo metodo apposito
         //da chiamare in caso di persone aggiunte, prende le persone inserite nell'arraylist fantacalcio.Metodi.personeList
@@ -51,19 +55,19 @@ public class Program {
         //poi è necessario aggiornare l'hashmap
         
         //addGiocatore(nomeCognome,squadra);
-        addGiocatore("Alessandro del Piero","Juventus");
-        addGiocatore("Pavel Nedved","Juventus");
-        addGiocatore("Cristiano Ronaldo","Juventus");
-        addGiocatore("Giorgio Chiellini","Juventus");
-        addGiocatore("Gianluigi Buffon","Juventus");
-        addAllenatore("Andrea Pirlo","Juventus");
+        addGiocatore("Alessandro del Piero","Juventus","ATT");
+        addGiocatore("Pavel Nedved","Juventus","CC");
+        addGiocatore("Cristiano Ronaldo","Juventus","ATT");
+        addGiocatore("Giorgio Chiellini","Juventus","DIF");
+        addGiocatore("Gianluigi Buffon","Juventus","POR");
+        addAllenatore("Andrea Pirlo","Juventus","Allenatore");
         
-        addGiocatore("Lorenzo Insigne","Napoli");
-        addGiocatore("Diego Armando Maradona","Napoli");
-        addGiocatore("Dries Mertens","Napoli");
-        addGiocatore("Kalidou Koulibaly","Napoli");
-        addGiocatore("Pepe Reina","Napoli");
-        addAllenatore("Gennaro Gattuso","Napoli");
+        addGiocatore("Lorenzo Insigne","Napoli","ATT");
+        addGiocatore("Diego Armando Maradona","Napoli","ATT");
+        addGiocatore("Dries Mertens","Napoli","ATT");
+        addGiocatore("Kalidou Koulibaly","Napoli","DIF");
+        addGiocatore("Pepe Reina","Napoli","POR");
+        addAllenatore("Gennaro Gattuso","Napoli","Allenatore");
         
         //aggiorno l'hashmap 
         updateDb.run();
@@ -93,7 +97,7 @@ public class Program {
         //istanzio un Giocatore per provare la serializzazione e deserializzazione
         System.out.println("Provo la serializzazione di un giocatore:");
         
-        Giocatore g1 = new Giocatore("AlessandroProva", "SerializProva");
+        Giocatore g1 = new Giocatore("AlessandroProva", "SerializProva","prova");
         
         System.out.println("toString del Giocatore da serializzare:\n");
         
@@ -142,6 +146,21 @@ public class Program {
         System.out.println("Squadre presenti nel database: "+dbPersone.size());        
         
         System.out.println(SPAZIATORE);
+        System.out.println(dbPersone.keySet());
+        
+        squadre= new String[dbPersone.size()];
+        int i=0;
+        for (String str : dbPersone.keySet()){
+            squadre[i]=str;
+            i++;
+        }
+        System.out.println("ciao");
+        for (int j = 0; j < squadre.length-1; j++) {
+            System.out.println(squadre[j]+"ciaooooo");
+        }
+        
+        
+        new FormSquadre().setVisible(true);
     }
     
 }

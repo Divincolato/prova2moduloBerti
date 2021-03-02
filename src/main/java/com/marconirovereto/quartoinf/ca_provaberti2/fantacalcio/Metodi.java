@@ -16,17 +16,17 @@ public class Metodi {
     
     public static List<Persona> personeList = new ArrayList<>();
     
-    public static void addAllenatore(String nome, String squadra){
+    public static void addAllenatore(String nome, String squadra, String ruolo){
         
-        Allenatore a1 = new Allenatore(nome, squadra);
+        Allenatore a1 = new Allenatore(nome, squadra,ruolo);
         
         personeList.add(a1);
         
     }    
     
-    public static void addGiocatore(String nome, String squadra){
+    public static void addGiocatore(String nome, String squadra,String ruolo){
         
-        Giocatore g1 = new Giocatore(nome, squadra);
+        Giocatore g1 = new Giocatore(nome, squadra,ruolo);
         
         personeList.add(g1);
         

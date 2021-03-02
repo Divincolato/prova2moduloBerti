@@ -13,12 +13,26 @@ public class Giocatore extends Persona{
     public Giocatore (){
         
     }
-    public Giocatore(String nomeCognome, String  squadra){
+    public Giocatore(String nomeCognome, String  squadra, String ruolo){
         this.nomeCognome=nomeCognome;
         this.squadra=squadra;
+        this.ruolo=ruolo;
+    }
+
+    public String getNomeCognome() {
+        return nomeCognome;
+    }
+
+    public void setNomeCognome(String nomeCognome) {
+        this.nomeCognome = nomeCognome;
+    }
+    
+    public String getRuolo() {
+        return ruolo;
     }
     @Override
     public String toString(){
         return nomeCognome;
     }
+    
 }

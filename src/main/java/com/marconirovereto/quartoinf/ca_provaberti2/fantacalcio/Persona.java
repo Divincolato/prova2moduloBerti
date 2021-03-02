@@ -16,5 +16,23 @@ public abstract class Persona implements Serializable{
     
     public String nomeCognome;
     public String squadra;
+    public String ruolo;
+    public int punteggio;
+
+    public String getNomeCognome() {
+        return nomeCognome;
+    }
+
+    public void setNomeCognome(String nomeCognome) {
+        this.nomeCognome = nomeCognome;
+    }
+
+    public int getPunteggio() {
+        return punteggio;
+    }
+
+    public void setPunteggio(int punteggio) {
+        this.punteggio = punteggio;
+    }
     
 }
