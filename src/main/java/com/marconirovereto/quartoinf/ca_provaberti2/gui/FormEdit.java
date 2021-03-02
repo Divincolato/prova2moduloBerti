@@ -7,7 +7,6 @@
 package com.marconirovereto.quartoinf.ca_provaberti2.gui;
 
 import com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Persona;
-import javax.swing.Popup;
 
 /**
  *

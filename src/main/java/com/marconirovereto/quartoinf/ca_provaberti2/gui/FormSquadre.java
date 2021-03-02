@@ -5,10 +5,8 @@
  */
 package com.marconirovereto.quartoinf.ca_provaberti2.gui;
 
-import com.marconirovereto.quartoinf.ca_provaberti2.Program;
 import static com.marconirovereto.quartoinf.ca_provaberti2.Program.dbPersone;
 import static com.marconirovereto.quartoinf.ca_provaberti2.Program.squadre;
-import com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Giocatore;
 import com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Persona;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;

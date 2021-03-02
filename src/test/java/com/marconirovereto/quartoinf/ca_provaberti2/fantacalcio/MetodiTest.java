@@ -5,12 +5,10 @@
  */
 package com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio;
 
-import com.sun.net.httpserver.Authenticator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -47,7 +45,8 @@ public class MetodiTest {
         System.out.println("addAllenatore");
         String nome = "PaoloAllenatore";
         String squadra = "TestNapoli";
-        Metodi.addAllenatore(nome, squadra);
+        String ruolo = "ATT";
+        Metodi.addAllenatore(nome, squadra,ruolo);
         //essendo il secondo test controllo se c'è più di un dato, il primo è il giocatore del primo test
         if (Metodi.personeList.size()<1){
             fail("Non è stato aggiunto nessun Allenatore");
@@ -62,7 +61,8 @@ public class MetodiTest {
         System.out.println("addGiocatore");
         String nome = "PaoloGiocatore";
         String squadra = "TestJuve";
-        Metodi.addGiocatore(nome, squadra);
+        String ruolo = "ATT";
+        Metodi.addGiocatore(nome, squadra,ruolo);
         //essendo il primo test che fa controllo se l'array è vuoto
         if (Metodi.personeList.isEmpty()){
             fail("Non è stato aggiunto nessun Giocatore");
