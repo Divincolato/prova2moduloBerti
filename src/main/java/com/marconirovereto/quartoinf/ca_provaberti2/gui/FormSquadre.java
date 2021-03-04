@@ -5,10 +5,18 @@
  */
 package com.marconirovereto.quartoinf.ca_provaberti2.gui;
 
-import static com.marconirovereto.quartoinf.ca_provaberti2.Program.dbPersone;
-import static com.marconirovereto.quartoinf.ca_provaberti2.Program.squadre;
+import static com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Metodi.*;
 import com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Persona;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.List;
+import java.util.Map;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -19,16 +27,26 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FormSquadre extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NewJFrame
-     */
+    //boolean per il debug, mostra informazioni utili in console
+    boolean DEBUG = false;
     
+    //contenitore per le persone della squadra selezionata
     Persona[]ArraySquadraSelez;
+    
+    //come sopra, contiene la key di che squadra è stata selezionata
     String s;
     
+    //espressione lambda per confermare la chiusura, l'ho messa qui in caso la dovessi usare più volte
+    Runnable askOnClose = ()-> {JFrame Frame = new JFrame("Exit"); 
+                                if (JOptionPane.showConfirmDialog(Frame,"Assicurati di aver salvato, chiudere l'applicazione?","Database Fantacalcio",
+                                JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
+                                System.exit(0);};
+    
+     /**
+     * Creates new form NewJFrame
+     */
     public FormSquadre() {
         initComponents();
-        
         caricaLista();
     }
 
@@ -45,8 +63,19 @@ public class FormSquadre extends javax.swing.JFrame {
         jList1 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuSalva = new javax.swing.JMenuItem();
+        jMenuCarica = new javax.swing.JMenuItem();
+        jMenuExit = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuCreaSquadra = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Database Fantacalcio");
+        setResizable(false);
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -63,15 +92,14 @@ public class FormSquadre extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Giocatore", "Ruolo", "Punteggio Giornata"
             }
         ));
+        jTable1.setEnabled(false);
+        jTable1.setFillsViewportHeight(true);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -79,24 +107,80 @@ public class FormSquadre extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTable1);
 
+        jTextArea2.setEditable(false);
+        jTextArea2.setColumns(20);
+        jTextArea2.setFont(new java.awt.Font("DialogInput", 0, 12)); // NOI18N
+        jTextArea2.setLineWrap(true);
+        jTextArea2.setRows(1);
+        jTextArea2.setDisabledTextColor(new java.awt.Color(204, 0, 51));
+        jTextArea2.setEnabled(false);
+        jTextArea2.setMargin(new java.awt.Insets(3, 3, 0, 0));
+        jScrollPane4.setViewportView(jTextArea2);
+
+        jMenu1.setText("File");
+
+        jMenuSalva.setText("Salva con nome...");
+        jMenuSalva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSalvaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuSalva);
+        jMenuSalva.getAccessibleContext().setAccessibleName("jMenuSalva");
+
+        jMenuCarica.setText("Carica database...");
+        jMenuCarica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCaricaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuCarica);
+        jMenuCarica.getAccessibleContext().setAccessibleName("jMenuCarica");
+
+        jMenuExit.setText("Esci");
+        jMenuExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuExitActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuExit);
+        jMenuExit.getAccessibleContext().setAccessibleName("jMenuExit");
+
+        jMenuBar2.add(jMenu1);
+
+        jMenu2.setText("Edit");
+
+        jMenuCreaSquadra.setText("Crea nuova squadra...");
+        jMenu2.add(jMenuCreaSquadra);
+        jMenuCreaSquadra.getAccessibleContext().setAccessibleName("jMenuCreaSquadra");
+
+        jMenuBar2.add(jMenu2);
+
+        setJMenuBar(jMenuBar2);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane4))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -104,66 +188,120 @@ public class FormSquadre extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-            // TODO add your handling code here:
+          //prendo che squadra è stata cliccata in lista
           int index = jList1.getSelectedIndex();
           s = (String) jList1.getSelectedValue();
-          System.out.println("Value Selected: " + s.toString());
+          
+          if(DEBUG){System.out.println("Squadra selezionata: " + s.toString());}
           caricaTabella(s);
               
         
     }//GEN-LAST:event_jList1MouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        //prendo che giocatore è stato cliccato
         int riga = jTable1.rowAtPoint(evt.getPoint());
         int colonna = jTable1.columnAtPoint(evt.getPoint());
         String valoreDelCampo = jTable1.getModel().getValueAt(riga, colonna)+"";
-        System.out.print("valore della cella: "+valoreDelCampo);
-        System.out.println(" | indice della riga cliccata: "+riga);
+        if(DEBUG){System.out.print("valore della cella: "+valoreDelCampo);
+        System.out.println(" | indice della riga cliccata: "+riga);}
         
         //apro la form di dettaglio sulla persona cliccata
         try {
             
         FormEdit f = new FormEdit(ArraySquadraSelez[riga], this, riga, s);
         f.setVisible(true);
+        f.setLocationRelativeTo(this);
         this.setEnabled(false);
         } catch (Exception e) {System.out.println("Selezionare una squadra");
+        messaggioUtente("Selezionare una squadra");
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jMenuSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalvaActionPerformed
+                        try {
+            FileOutputStream fileOut = new FileOutputStream("abc.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(personeList);
+            out.close();
+            
+        } catch (IOException e) {
+            System.out.println("Eccezione "+e.getMessage());
+            messaggioUtente("Eccezione "+e.getMessage());}
+    }//GEN-LAST:event_jMenuSalvaActionPerformed
+
+    private void jMenuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuExitActionPerformed
+        askOnClose.run();
+    }//GEN-LAST:event_jMenuExitActionPerformed
+
+    private void jMenuCaricaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCaricaActionPerformed
+        
+        try {
+            FileInputStream fileIn = new FileInputStream("giocatorea.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            personeList = (List<Persona>)in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            
+            System.out.println("Eccezione "+e.getMessage());
+        }
+        updateDb();
+        caricaLista();
+    }//GEN-LAST:event_jMenuCaricaActionPerformed
+    
+    //metodo per dare un messaggio all'utente in gui
+    public void messaggioUtente(String str){
+        jTextArea2.setText(str);
+    }
+    
+    //carico lista delle squadre da usare in form
     public void caricaLista(){
+        
         DefaultListModel demoList =  new DefaultListModel();
+
         for (String string : squadre) {
             demoList.addElement(string);
         }
         jList1.setModel(demoList);
+
     }
+    //carico lista giocatori in tabella ogni volta che viene cliccata una squadra in lista 
     public void caricaTabella(String s){
-               //mi faccio dare il modello dei dati
+        //mi faccio dare il modello dei dati
         DefaultTableModel modello = (DefaultTableModel) jTable1.getModel();
         
         //ripulisco i dati presenti nel modello (serve per le volte successive alla prima)
         for (int i = modello.getRowCount() - 1; i >= 0; i--) {
             modello.removeRow(i);
         }
+        //prendo la squadra dall'hashmap
+        try {
+            
         ArraySquadraSelez = dbPersone.get(s).toArray(new Persona[0]);
-        //carico i dati
+        
+                //carico i dati
         int nCampiDavisualizzare = 3;
         String[] dati = new String[nCampiDavisualizzare];
+        
         int punteggioTotale=0;
         for (int i = 0; i < ArraySquadraSelez.length; i++) {
             //inserisco la singola riga di dati
             dati[0] = ArraySquadraSelez[i].nomeCognome;
             dati[1] = ArraySquadraSelez[i].ruolo;
+            
             //sommo tutti i punteggi per metterli all'allenatore
+            //se è allenatore metto come punteggio il totale
+            //se è giocatore metto il punteggio inividuale come gli altri dati
             punteggioTotale+=ArraySquadraSelez[i].punteggio;
             if (dati[1].equals("Allenatore")) {
                 dati[2] = punteggioTotale+"";
             }else{dati[2] = ArraySquadraSelez[i].punteggio+"";}
+            //mando i dati alla tabella
             modello.addRow(dati);
         }
+        } catch (Exception e) {
+            System.out.println("Nessun giocatore da aggiungere");
+        }
+
         
     }
  
@@ -203,8 +341,17 @@ public class FormSquadre extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> jList1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuCarica;
+    private javax.swing.JMenuItem jMenuCreaSquadra;
+    private javax.swing.JMenuItem jMenuExit;
+    private javax.swing.JMenuItem jMenuSalva;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
+    public javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 }
