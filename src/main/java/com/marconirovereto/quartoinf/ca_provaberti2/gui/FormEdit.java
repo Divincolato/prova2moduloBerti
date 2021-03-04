@@ -5,7 +5,6 @@
  */
 
 package com.marconirovereto.quartoinf.ca_provaberti2.gui;
-
 import com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Persona;
 
 /**
@@ -46,7 +45,7 @@ public class FormEdit extends javax.swing.JFrame {
         btnSalva = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.setText("jTextField1");
@@ -75,15 +74,13 @@ public class FormEdit extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(btnAnnulla)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSalva))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(79, 79, 79)
@@ -117,7 +114,8 @@ public class FormEdit extends javax.swing.JFrame {
         try {
                 p.setPunteggio(Integer.parseInt(jTextField1.getText()));
                 
-        } catch (Exception e) {System.out.println("Non è stato inserito un intero, nessun cambiamento fatto");
+        } catch (Exception e) {
+        fp.messaggioUtente("Non è stato inserito un intero, nessun cambiamento fatto");
         }
         
         //TODO ricaricare i dati in form principale
