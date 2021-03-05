@@ -5,10 +5,6 @@
  */
 package com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio;
 
-import com.marconirovereto.quartoinf.ca_provaberti2.gui.FormSquadre;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,20 +50,20 @@ public class Metodi implements Serializable{
     //da chiamare ad ogni modifica del database
     
     public static void updateDb(){
-        
-        //popolo l'hashmap usando come key la squadra con lo stream delle persone presenti nell'array personeList
-        
-        dbPersone = Metodi.personeList.stream().collect(Collectors.groupingBy(w -> w.squadra)); 
-        
         //creo un array di stringhe grande il numero di squadre presenti
         //lo popolo con le key usate nell'hashmap per avere una lista di squadre presenti
         
+        dbPersone = Metodi.personeList.stream().collect(Collectors.groupingBy(w -> w.squadra)); 
         squadre= new String[dbPersone.size()];
         int i=0;
         for (String str : dbPersone.keySet()){
             squadre[i]=str;
             i++;
-        }               
+        }          
+        //popolo l'hashmap usando come key la squadra con lo stream delle persone presenti nell'array personeList
+        
+        
+             
       
     }
    

@@ -21,6 +21,7 @@ public class FormEdit extends javax.swing.JFrame {
     
     public FormEdit(){
         initComponents();
+        
     }
     /** Creates new form FormEdit */
     public FormEdit(Persona p, FormSquadre fp, int riga, String s) {

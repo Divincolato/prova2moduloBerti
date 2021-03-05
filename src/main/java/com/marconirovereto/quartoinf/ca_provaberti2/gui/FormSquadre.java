@@ -139,6 +139,11 @@ public class FormSquadre extends javax.swing.JFrame {
         jMenu2.setText("Edit");
 
         jMenuCreaSquadra.setText("Crea nuova squadra...");
+        jMenuCreaSquadra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCreaSquadraActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuCreaSquadra);
         jMenuCreaSquadra.getAccessibleContext().setAccessibleName("jMenuCreaSquadra");
 
@@ -245,6 +250,14 @@ public class FormSquadre extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jMenuCaricaActionPerformed
+
+    private void jMenuCreaSquadraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCreaSquadraActionPerformed
+        FormNuovaSquadra f = new FormNuovaSquadra(this);
+        f.setVisible(true);
+        f.setLocationRelativeTo(this);
+        f.setTitle("Crea nuova squadra");
+        this.setEnabled(false);
+    }//GEN-LAST:event_jMenuCreaSquadraActionPerformed
     
     //metodo per dare un messaggio all'utente in gui
     public void messaggioUtente(String str, Color c){
@@ -254,7 +267,6 @@ public class FormSquadre extends javax.swing.JFrame {
     
     //carico lista delle squadre da usare in form
     public void caricaLista(){
-        
         DefaultListModel demoList =  new DefaultListModel();
 
         for (String string : squadre) {
