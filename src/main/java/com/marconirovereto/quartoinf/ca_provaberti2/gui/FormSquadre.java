@@ -7,13 +7,7 @@ package com.marconirovereto.quartoinf.ca_provaberti2.gui;
 
 import static com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Metodi.*;
 import com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Persona;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.List;
-import java.util.Map;
+import java.awt.Color;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -199,35 +193,41 @@ public class FormSquadre extends javax.swing.JFrame {
     }//GEN-LAST:event_jList1MouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        //prendo che giocatore è stato cliccato
+        
         int riga = jTable1.rowAtPoint(evt.getPoint());
         int colonna = jTable1.columnAtPoint(evt.getPoint());
+        try {
+        System.out.println(riga+" "+colonna);
         String valoreDelCampo = jTable1.getModel().getValueAt(riga, colonna)+"";
         if(DEBUG){System.out.print("valore della cella: "+valoreDelCampo);
         System.out.println(" | indice della riga cliccata: "+riga);}
         
+        } catch (Exception e) {System.out.println("Il database è vuoto, carica una squadra");
+            messaggioUtente("Il database è vuoto, carica una squadra", Color.red);
+            return;
+        }
+//prendo che giocatore è stato cliccato
+        
         //apro la form di dettaglio sulla persona cliccata
-        try {
-            
+        
         FormEdit f = new FormEdit(ArraySquadraSelez[riga], this, riga, s);
         f.setVisible(true);
         f.setLocationRelativeTo(this);
         this.setEnabled(false);
-        } catch (Exception e) {System.out.println("Selezionare una squadra");
-        messaggioUtente("Selezionare una squadra");
-        }
+        
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jMenuSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalvaActionPerformed
-                        try {
-            FileOutputStream fileOut = new FileOutputStream("abc.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(personeList);
-            out.close();
+        try {
             
-        } catch (IOException e) {
-            System.out.println("Eccezione "+e.getMessage());
-            messaggioUtente("Eccezione "+e.getMessage());}
+        FormSalva f = new FormSalva(this);
+        f.setVisible(true);
+        f.setLocationRelativeTo(this);
+        f.setTitle("Salva con nome");
+        this.setEnabled(false);}
+        catch(Exception e) {System.out.println("Selezionare una squadra");
+        messaggioUtente("Selezionare una squadra",Color.red);
+        }
     }//GEN-LAST:event_jMenuSalvaActionPerformed
 
     private void jMenuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuExitActionPerformed
@@ -235,22 +235,23 @@ public class FormSquadre extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuExitActionPerformed
 
     private void jMenuCaricaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCaricaActionPerformed
-        
         try {
-            FileInputStream fileIn = new FileInputStream("giocatorea.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            personeList = (List<Persona>)in.readObject();
-        } catch (IOException | ClassNotFoundException e) {
             
-            System.out.println("Eccezione "+e.getMessage());
+        FormCarica f = new FormCarica(this);
+        f.setVisible(true);
+        f.setLocationRelativeTo(this);
+        f.setTitle("Carica da file");
+        this.setEnabled(false);
+        } catch (Exception e) {System.out.println("Selezionare una squadra");
+        messaggioUtente("Selezionare una squadra",Color.red);
         }
-        updateDb();
-        caricaLista();
+
     }//GEN-LAST:event_jMenuCaricaActionPerformed
     
     //metodo per dare un messaggio all'utente in gui
-    public void messaggioUtente(String str){
+    public void messaggioUtente(String str, Color c){
         jTextArea2.setText(str);
+        jTextArea2.setDisabledTextColor(c);
     }
     
     //carico lista delle squadre da usare in form

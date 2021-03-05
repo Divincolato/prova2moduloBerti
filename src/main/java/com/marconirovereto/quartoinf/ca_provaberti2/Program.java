@@ -57,18 +57,6 @@ public class Program {
 ////        
         //aggiorno l'hashmap 
         updateDb();
-        try {
-            FileOutputStream fileOut = new FileOutputStream("giocatore.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(personeList);
-            out.close();
-            
-        } catch (IOException e) {
-            System.out.println("Eccezione "+e.getMessage());
-        }
-        
-        //deserializzazione oggetto
-        Giocatore g2 = new Giocatore();
 
        
         new FormSquadre().setVisible(true);

@@ -6,6 +6,7 @@
 
 package com.marconirovereto.quartoinf.ca_provaberti2.gui;
 import com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Persona;
+import java.awt.Color;
 
 /**
  *
@@ -115,7 +116,7 @@ public class FormEdit extends javax.swing.JFrame {
                 p.setPunteggio(Integer.parseInt(jTextField1.getText()));
                 
         } catch (Exception e) {
-        fp.messaggioUtente("Non è stato inserito un intero, nessun cambiamento fatto");
+        fp.messaggioUtente("Non è stato inserito un intero, nessun cambiamento fatto",Color.red);
         }
         
         //TODO ricaricare i dati in form principale
