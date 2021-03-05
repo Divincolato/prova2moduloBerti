@@ -5,17 +5,9 @@
  */
 package com.marconirovereto.quartoinf.ca_provaberti2;
 
-import com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.*;
-
-import static com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Metodi.*;
 import com.marconirovereto.quartoinf.ca_provaberti2.gui.FormSquadre;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.List;
-import java.util.Map;
+
+
 
 
 /**
@@ -30,35 +22,6 @@ public class Program {
 
     public static void main(String[] args){
 
-        
-        //espressione lambda per aggiornare l'hashmap senza creare un nuovo metodo apposito
-        //da chiamare in caso di persone aggiunte, prende le persone inserite nell'arraylist fantacalcio.Metodi.personeList
-        //ogni volta che verrà chiamata verrà scritto nei file di log 
-        
-	
-        //aggiungo giocatori tramite metodo(addGiocatore, addAllenatore,
-        //prima istanzia oggetti persona e poi li aggiunge ad arraylist
-        //poi è necessario aggiornare l'hashmap
-        
-//        addGiocatore(nomeCognome,squadra);
-//        addGiocatore("Alessandro del Piero","Juventus","ATT");
-//        addGiocatore("Pavel Nedved","Juventus","CC");
-//        addGiocatore("Cristiano Ronaldo","Juventus","ATT");
-//        addGiocatore("Giorgio Chiellini","Juventus","DIF");
-//        addGiocatore("Gianluigi Buffon","Juventus","POR");
-//        addAllenatore("Andrea Pirlo","Juventus","Allenatore");
-//        
-//        addGiocatore("Lorenzo Insigne","Napoli","ATT");
-//        addGiocatore("Diego Armando Maradona","Napoli","ATT");
-//        addGiocatore("Dries Mertens","Napoli","ATT");
-//        addGiocatore("Kalidou Koulibaly","Napoli","DIF");
-//        addGiocatore("Pepe Reina","Napoli","POR");
-//        addAllenatore("Gennaro Gattuso","Napoli","Allenatore");
-////        
-        //aggiorno l'hashmap 
-        updateDb();
-
-       
         new FormSquadre().setVisible(true);
     }
     

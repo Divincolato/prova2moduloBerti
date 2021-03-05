@@ -62,7 +62,7 @@ public class FormCarica extends javax.swing.JFrame {
 
         jTextField2.setEditable(false);
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("Inserisci il nome del file da salvare");
+        jTextField2.setText("Inserisci il nome del file da caricare");
         jTextField2.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         jTextField2.setEnabled(false);
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -122,8 +122,8 @@ public class FormCarica extends javax.swing.JFrame {
             ObjectInputStream in = new ObjectInputStream(fileIn);
             personeList = (List<Persona>)in.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Eccezione nel caricare il file"+e.getMessage());
-            fp.messaggioUtente("Eccezione nel caricare il file"+e.getMessage() , Color.RED);
+            System.out.println("Eccezione nel caricare il file "+e.getMessage());
+            fp.messaggioUtente("Eccezione nel caricare il file "+e.getMessage() , Color.RED);
             fp.setEnabled(true);
             this.dispose();
             return;

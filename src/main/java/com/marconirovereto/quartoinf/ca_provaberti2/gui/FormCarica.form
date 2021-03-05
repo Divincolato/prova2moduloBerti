@@ -85,7 +85,7 @@
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Inserisci il nome del file da salvare"/>
+        <Property name="text" type="java.lang.String" value="Inserisci il nome del file da caricare"/>
         <Property name="disabledTextColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="33" green="33" red="33" type="rgb"/>
         </Property>

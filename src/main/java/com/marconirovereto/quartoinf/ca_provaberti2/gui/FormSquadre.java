@@ -41,7 +41,6 @@ public class FormSquadre extends javax.swing.JFrame {
      */
     public FormSquadre() {
         initComponents();
-        caricaLista();
     }
 
     /**
@@ -71,11 +70,6 @@ public class FormSquadre extends javax.swing.JFrame {
         setTitle("Database Fantacalcio");
         setResizable(false);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jList1MouseClicked(evt);
@@ -185,8 +179,11 @@ public class FormSquadre extends javax.swing.JFrame {
           //prendo che squadra è stata cliccata in lista
           int index = jList1.getSelectedIndex();
           s = (String) jList1.getSelectedValue();
-          
-          if(DEBUG){System.out.println("Squadra selezionata: " + s.toString());}
+          if (index<0) {
+            messaggioUtente("Seleziona una squadra o carica un database", Color.black);
+            return;
+        }
+          if(DEBUG){System.out.println("Squadra selezionata: " + s);}
           caricaTabella(s);
               
         
@@ -197,14 +194,15 @@ public class FormSquadre extends javax.swing.JFrame {
         int riga = jTable1.rowAtPoint(evt.getPoint());
         int colonna = jTable1.columnAtPoint(evt.getPoint());
         try {
-        System.out.println(riga+" "+colonna);
         String valoreDelCampo = jTable1.getModel().getValueAt(riga, colonna)+"";
         if(DEBUG){System.out.print("valore della cella: "+valoreDelCampo);
         System.out.println(" | indice della riga cliccata: "+riga);}
         
-        } catch (Exception e) {System.out.println("Il database è vuoto, carica una squadra");
-            messaggioUtente("Il database è vuoto, carica una squadra", Color.red);
-            return;
+        } catch (Exception e) {
+            if(jTable1.getRowCount()>0){messaggioUtente("Seleziona un giocatore", Color.black);return;}
+            else{
+            messaggioUtente("Seleziona una squadra o carica un database", Color.black);
+            return;}
         }
 //prendo che giocatore è stato cliccato
         
