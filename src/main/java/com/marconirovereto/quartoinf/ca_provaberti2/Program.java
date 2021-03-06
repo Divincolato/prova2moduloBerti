@@ -6,7 +6,7 @@
 package com.marconirovereto.quartoinf.ca_provaberti2;
 
 import com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Metodi;
-import com.marconirovereto.quartoinf.ca_provaberti2.gui.FormSquadre;
+import com.marconirovereto.quartoinf.ca_provaberti2.gui.FormPrincipale;
 
 
 
@@ -24,7 +24,7 @@ public class Program {
     public static void main(String[] args){
         
         
-        new FormSquadre().setVisible(true);
+        new FormPrincipale().setVisible(true);
     }
     
 }

@@ -18,11 +18,11 @@ import java.util.List;
  * @author Nico
  */
 public class FormCarica extends javax.swing.JFrame {
-    public static FormSquadre fp;
+    public static FormPrincipale fp;
     /**
      * Creates new form FormCaricaSalva
      */
-    public FormCarica(FormSquadre fp) {
+    public FormCarica(FormPrincipale fp) {
         this.fp = fp;
         
         initComponents();

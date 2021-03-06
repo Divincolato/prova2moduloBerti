@@ -8,7 +8,15 @@ package com.marconirovereto.quartoinf.ca_provaberti2.gui;
 import static com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Metodi.*;
 import com.marconirovereto.quartoinf.ca_provaberti2.fantacalcio.Persona;
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Nico
  */
-public class FormSquadre extends javax.swing.JFrame {
+public class FormPrincipale extends javax.swing.JFrame {
 
     //boolean per il debug, mostra informazioni utili in console
     boolean DEBUG = false;
@@ -39,9 +47,22 @@ public class FormSquadre extends javax.swing.JFrame {
      /**
      * Creates new form NewJFrame
      */
-    public FormSquadre() {
+    public FormPrincipale() {
         initComponents();
-    }
+        
+        //questo è l'ask on close che abbiamo visto in classe
+        
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent windowEvent){
+            askOnClose.run();
+        }
+        
+        });
+        
+                
+                
+                }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -170,16 +191,16 @@ public class FormSquadre extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+              
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
           //prendo che squadra è stata cliccata in lista
           int index = jList1.getSelectedIndex();
@@ -195,7 +216,7 @@ public class FormSquadre extends javax.swing.JFrame {
     }//GEN-LAST:event_jList1MouseClicked
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        
+        //prendo che giocatore è stato cliccato
         int riga = jTable1.rowAtPoint(evt.getPoint());
         int colonna = jTable1.columnAtPoint(evt.getPoint());
         try {
@@ -204,12 +225,14 @@ public class FormSquadre extends javax.swing.JFrame {
         System.out.println(" | indice della riga cliccata: "+riga);}
         
         } catch (Exception e) {
+            //if se si clicca sotto i giocatori, con tabella piena
             if(jTable1.getRowCount()>0){messaggioUtente("Seleziona un giocatore", Color.black);return;}
             else{
+                //se si clicca sulla tabella vuota
             messaggioUtente("Seleziona una squadra o carica un database", Color.black);
             return;}
         }
-//prendo che giocatore è stato cliccato
+
         
         //apro la form di dettaglio sulla persona cliccata
         
@@ -221,16 +244,34 @@ public class FormSquadre extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jMenuSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalvaActionPerformed
+        
+        //istanzio file chooser 
+        
+        JFileChooser chooser = new JFileChooser();
+        //int scelta 
+        int choice = chooser.showSaveDialog(jMenuSalva);
+        //se il file chooser ha ritornato qualcosa di diverso da un file approvato, chiudo la form
+        if (choice != JFileChooser.APPROVE_OPTION) {messaggioUtente("Errore nella scelta del file", Color.red);return;}
+
+        File chosenFile = chooser.getSelectedFile();
+        
+        //utilizzo serializable sul file appena scelto        
         try {
+            FileOutputStream fileOut = new FileOutputStream(chosenFile);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(personeList);
+            out.close();
             
-        FormSalva f = new FormSalva(this);
-        f.setVisible(true);
-        f.setLocationRelativeTo(this);
-        f.setTitle("Salva con nome");
-        this.setEnabled(false);}
-        catch(Exception e) {System.out.println("Selezionare una squadra");
-        messaggioUtente("Selezionare una squadra",Color.red);
+        } catch (IOException e) {
+            System.out.println("Eccezione nel salvare il file"+e.getMessage());
+            messaggioUtente("Eccezione nel salvare il file"+e.getMessage() , Color.RED);
+            setEnabled(true);
+            this.dispose();
+            return;
         }
+        messaggioUtente("Il file: "+chosenFile+" è stato salvato correttamente", Color.BLACK);
+                
+
     }//GEN-LAST:event_jMenuSalvaActionPerformed
 
     private void jMenuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuExitActionPerformed
@@ -238,17 +279,30 @@ public class FormSquadre extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuExitActionPerformed
 
     private void jMenuCaricaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCaricaActionPerformed
-        try {
-            
-        FormCarica f = new FormCarica(this);
-        f.setVisible(true);
-        f.setLocationRelativeTo(this);
-        f.setTitle("Carica da file");
-        this.setEnabled(false);
-        } catch (Exception e) {System.out.println("Selezionare una squadra");
-        messaggioUtente("Selezionare una squadra",Color.red);
-        }
+        //vedere jMenuSalvaActionPerformed per commenti su filechooser
+        JFileChooser chooser = new JFileChooser();
+        
+        int choice = chooser.showOpenDialog(jMenuCarica);
 
+        if (choice != JFileChooser.APPROVE_OPTION) return;
+
+        File chosenFile = chooser.getSelectedFile();
+        
+        try {
+            FileInputStream fileIn = new FileInputStream(chosenFile);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            personeList = (List<Persona>)in.readObject();
+            updateDb();
+            caricaLista();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Eccezione nel caricare il file "+e.getMessage());
+            messaggioUtente("Eccezione nel caricare il file "+e.getMessage() , Color.RED);
+            setEnabled(true);
+            this.dispose();
+            return;
+        }
+        
+        messaggioUtente("Il file: "+chosenFile+" è stato caricato correttamente", Color.BLACK);
     }//GEN-LAST:event_jMenuCaricaActionPerformed
 
     private void jMenuCreaSquadraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCreaSquadraActionPerformed
@@ -331,21 +385,24 @@ public class FormSquadre extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormSquadre.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPrincipale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormSquadre.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPrincipale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormSquadre.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPrincipale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormSquadre.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPrincipale.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormSquadre().setVisible(true);
+                new FormPrincipale().setVisible(true);
+
             }
         });
     }
@@ -365,4 +422,5 @@ public class FormSquadre extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     public javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
+
 }
